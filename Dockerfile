@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-slim
 
 LABEL description="Simple PHP-MQTT Client Build With PHP 7 & SQLite For Storing Subscibed MQTT Topics"
 MAINTAINER Sofyan Arief <sofyan.89@gmail.com>
