@@ -13,7 +13,7 @@ RUN apt install -y lsb-release apt-transport-https ca-certificates wget
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/sury-php-repo.list
 RUN apt update
-RUN apt install -y apache2 libapache2-mod-php7.4 libapache2-mod-fcgid php7.4 php7.4-fpm php7.4-opcache php7.4-curl php7.4-common php7.4-cli php7.4-mbstring php-sqlite3 git curl wget zip unzip sqlite3 supervisor nano
+RUN apt install -y apache2 libapache2-mod-php7.4 libapache2-mod-fcgid php7.4 php7.4-fpm php7.4-opcache php7.4-curl php7.4-common php7.4-cli php7.4-mbstring php7.4-sqlite3 git curl wget zip unzip sqlite3 supervisor nano
 RUn a2enmod actions fcgid alias proxy_fcgi
 
 RUN rm /etc/apache2/sites-available/000-default.conf
