@@ -3,16 +3,18 @@ FROM debian:buster
 LABEL description="Simple PHP-MQTT Client Build With PHP 7 & SQLite For Storing Subscibed MQTT Topics"
 MAINTAINER Sofyan Arief <sofyan.89@gmail.com>
 
-RUN echo "deb http://kartolo.sby.datautama.net.id/debian buster main contrib non-free" > /etc/apt/sources.list
-RUN echo "deb http://kartolo.sby.datautama.net.id/debian buster-updates main contrib non-free" >> /etc/apt/sources.list
-RUN echo "deb http://security.debian.org/ buster/updates main contrib non-free" >> /etc/apt/sources.list
+RUN echo "deb http://kebo.pens.ac.id/debian/ buster main contrib non-free" > /etc/apt/sources.list
+RUN echo "deb http://kebo.pens.ac.id/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list
+RUN echo "deb http://kebo.pens.ac.id/debian-security/ buster/updates main contrib non-free" >> /etc/apt/sources.list
 
 RUN apt update
+RUN apt install -y curl wget gnupg2 ca-certificates lsb-release apt-transport-https
 RUN apt install -y lsb-release apt-transport-https ca-certificates wget
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/sury-php-repo.list
 RUN apt update
-RUN apt install -y apache2 libapache2-mod-php php7.4 php7.4-opcache php7.4-curl php7.4-common php7.4-cli php7.4-mbstring php-sqlite3 git curl wget zip unzip sqlite3 supervisor nano
+RUN apt install -y apache2 libapache2-mod-php7.4 libapache2-mod-fcgid php7.4 php7.4-fpm php7.4-opcache php7.4-curl php7.4-common php7.4-cli php7.4-mbstring php-sqlite3 git curl wget zip unzip sqlite3 supervisor nano
+RUn a2enmod actions fcgid alias proxy_fcgi
 
 RUN rm /etc/apache2/sites-available/000-default.conf
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
@@ -25,6 +27,7 @@ RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
 
+RUN service php7.4-fpm start
 RUN mkdir -p /var/www/php-mqtt-client
 
 RUN cd /var/www/php-mqtt-client && git clone https://github.com/sofyanarief/simple-php-mqtt-client.git .
